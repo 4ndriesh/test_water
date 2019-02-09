@@ -1,12 +1,17 @@
+import QtQuick 2.2
+import QtQuick.Controls 2.3
+import QtQuick.Layouts 1.3
+import QtQuick.Controls 1.4
+import QtQuick.Controls.Styles 1.4
+
 import QtQuick 2.7
-import QtQuick.Controls 2.0
+import QtQuick.Controls 2.3
 import QtQuick.Layouts 1.3
 import QtQuick.Controls.Styles 1.4
-import QtQuick 2.11
 import "test_water.js" as MyScript
 
 ApplicationWindow {
-id: win
+
     color: "#C0C0C0"
     visible: true
     x: 400
@@ -15,21 +20,33 @@ id: win
     height: 550
     title: "Create report"
 
-Item {
-     id: container
-     width: 500; height: 100
+            Item {
+             id: container
+//             Component.onCompleted: sig.gener(),MyScript.createspinbox();
+            }
+    Button {
+            text: "Ok"
+            onClicked:
+            sig.gener();
+        }
 
- }
- Button {
-        text: "Ok"
-        onClicked:
-        sig.gener();
-
-//        MyScript.updateCanvas();
-
+    Rectangle {
+    anchors.right: parent.right
+    height: parent.height
+    width: 200
+    GridLayout{
+            anchors.fill: parent
+            columns: 1
+                Projectlist{
+                pixelSize:15
+                internalModel: store
+                objectName : "project"
+                dialogview: false
+                }
 
     }
 
+    }
  Connections {
         target: sig
 
@@ -41,5 +58,4 @@ Item {
         }
 
     }
-
 }
