@@ -18,8 +18,8 @@ function createspinbox() {
 
 function createObject(component,tx, ty, nimage) {
     var object=component.createObject(container, {
-        "x": tx + width/1.5,
-        "y": ty + height-280,
+        "x": tx + controlPanel1.width/1.5,
+        "y": ty + controlPanel1.height-250,
         "numimage": nimage
     });
     if (object === null) {
