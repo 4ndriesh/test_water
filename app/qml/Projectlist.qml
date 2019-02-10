@@ -61,7 +61,7 @@ Rectangle {
                                 onClicked: {
 
                                     if (mouseButtonClicked === Qt.LeftButton) {
-                                        internalModel.sum(name),
+                                        internalModel.generat_cube(name),
                                         view.currentIndex = index;
                                     }
                                 }

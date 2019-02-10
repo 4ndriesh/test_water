@@ -1,19 +1,17 @@
+import os
+from sys import argv
+
 from PyQt5.QtGui import QGuiApplication
 from PyQt5.QtQml import QQmlListProperty, QQmlApplicationEngine
 from PyQt5.QtCore import QObject, pyqtProperty, pyqtSignal, pyqtSlot
-from sys import argv
 
 from matrix import Matrix
 from generator import Generator
 
-app = QGuiApplication(argv)
-# path_to_qml = './qml/cube3d.qml'
-path_to_qml = './qml/main.qml'
-
 from config import Config
 
 gen = Generator()
-
+setting = Config.inst()
 
 class Pars_project(QObject):
     name_prj_or_st = pyqtSignal()
@@ -34,10 +32,10 @@ class Pars_station(QObject):
         super().__init__(*args, **kwargs)
         self.prj_or_st = []
 
-    sumResult = pyqtSignal([list], arguments=['sum'])
+    sumResult = pyqtSignal([list], arguments=['generat'])
 
-    @pyqtSlot(str, name="sum")
-    def sum(self, checked):
+    @pyqtSlot(str, name="generat_cube")
+    def generat_cube(self, checked):
         setting = Config.inst()
         mass = setting.version[checked]
         if mass: self.emitproject(mass)
@@ -57,7 +55,7 @@ class Pars_station(QObject):
         self.run(mass)
 
     def run(self, mass):
-        setting = Config.inst()
+
         self.matrix = Matrix(mass)
         self.matrix.change_matrix()
         self.matrix.delete_water_last_row()
@@ -73,9 +71,10 @@ class Pars_station(QObject):
 
 
 report = Pars_station()
-
+app = QGuiApplication(argv)
 
 def qml():
+    path_to_qml = os.path.join(setting.BASE_DIR, 'qml', 'Main.qml')
     view = QQmlApplicationEngine()
     view.rootContext().setContextProperty('store', report)
     view.load(path_to_qml)

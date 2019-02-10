@@ -17,7 +17,6 @@ class Matrix:
                     self.obj_with_water[row][col] = water
                 else:
                     water = "{0}{1}".format(i, j)
-                    continue
 
         print(self.obj_with_water)
 

@@ -9,7 +9,7 @@ ApplicationWindow {
     y: 200
     width: 1000
     height: 550
-    title: "Create report"
+    title: "Test"
     Item {
         id: main
         width: 1000
@@ -58,11 +58,8 @@ ApplicationWindow {
     }
     Connections {
         target: store
-        // Обработчик сигнала сложения
         onSumResult: {
-        // sum было задано через arguments=['sum']
-        //            sumResult.text = sum
-        MyScript.test(sum);
+        MyScript.test(generat);
         }
 
     }

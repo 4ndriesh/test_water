@@ -6,14 +6,14 @@ function createspinbox() {
     var tilesizew = 110;
     var tilesizeh = tilesizew;
     var component = Qt.createComponent("spinbox.qml");
-    for (var til = -1; til < 5; til++) {
-        var tx = -tilesizew * til / 2;
-        var ty = 500;
-        var object = component.createObject(container, {
-            "x": tx + width / 1.5,
-            "y": ty
-        });
-    }
+        for (var til = -1; til < 5; til++) {
+            var tx = -tilesizew * til / 2;
+            var ty = 500;
+            var object = component.createObject(container, {
+                "x": tx + width / 1.5,
+                "y": ty
+            });
+        }
     }
 
 function createObject(component,tx, ty, nimage) {
@@ -39,10 +39,10 @@ function createCanvas(store) {
 
             if (store[til][tileid] === 1) {
 
-            listobject.push(createObject(component,tx,ty,"0002.png"))
+            listobject.push(createObject(component,tx,ty,"0001.png"))
             }
             else if (store[til][tileid] > 1) {
-                listobject.push(createObject(component,tx,ty,"0005.png"))
+                listobject.push(createObject(component,tx,ty,"0002.png"))
             }
         }
     }
