@@ -2,19 +2,6 @@
  * Created by andriesh on 07.02.19.
  */
 var tmp = [];
-function createspinbox() {
-    var tilesizew = 110;
-    var tilesizeh = tilesizew;
-    var component = Qt.createComponent("Label1.qml");
-        for (var til = -1; til < 5; til++) {
-            var tx = -tilesizew * til / 2;
-            var ty = 500;
-            var object = component.createObject(container, {
-                "x": tx + width / 1.5,
-                "y": ty
-            });
-        }
-    }
 
 function createObject(component,tx, ty, valop, nimage) {
     var object=component.createObject(container, {
@@ -34,7 +21,7 @@ function createCanvas(store) {
     var listobject=[];
     var listobjectlabel=[];
     var component = Qt.createComponent("Tile.qml");
-    var label = Qt.createComponent("Label1.qml");
+    var label = Qt.createComponent("Label.qml");
     for (var til = 0; til < store.length; til++) {
         var block=0;
         var tx=0;
