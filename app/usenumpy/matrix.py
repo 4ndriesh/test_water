@@ -1,37 +1,65 @@
+"""
+1. Прохожу по массиву и соединяю воду между возвышенностями;
+2. Нахожу нулевые ячейки в нижней строке и в крайних столбцах, затем удаляю все связанные ячейки.
+[[1. 1. 0. 0. 0. 0.]
+ [1. 1. 1. 1. 1. 1.]
+ [0. 0. 0. 0. 0. 0.]
+ [1. 1. 1. 1. 0. 0.]
+ [1. 1. 0. 0. 0. 0.]
+ [1. 1. 1. 1. 0. 0.]]
+ 
+[[ 1.  1.  0.  0.  0.  0.]
+ [ 1.  1.  1.  1.  1.  1.]
+ [ 0.  0.  0.  0.  0.  0.]
+ [ 1.  1.  1.  1.  0.  0.]
+ [ 1.  1. 44. 34.  0.  0.]
+ [ 1.  1.  1.  1.  0.  0.]]
+ 
+ 
+"""
 import numpy as np
 
 
 class Matrix:
-    def __init__(self, gen):
-        self.new_matrix = np.array(gen)
-        self.obj_with_water = np.flipud(self.new_matrix.transpose())
-        self.size_matrix = self.obj_with_water.shape
-        print(self.obj_with_water)
+    def __init__(self):
+        pass
+        self.__obj_with_water = np.array([], dtype=int)
 
-    def change_matrix(self):
+    def __delete_water_last_row(self, row_matrix):
+        for col, delete in enumerate(row_matrix, 0):
+            if delete == 0: continue
+            arr = self.__obj_with_water[:, col]
+            np.place(arr, arr == delete, 0)
 
-        water = '11'
-        for i, row in enumerate(range(0, self.size_matrix[0]), 1):
-            for j, col in enumerate(range(0, self.size_matrix[1]), 1):
-                if self.obj_with_water[row][col] == 0:
-                    self.obj_with_water[row][col] = water
+        print(self.__obj_with_water)
+        return self.__obj_with_water
+
+    def __change_matrix(self, mass):
+        self.__obj_with_water = mass
+        self.size_matrix = self.__obj_with_water.shape
+        water = 11
+        for i, col in enumerate(reversed(range(self.size_matrix[1])), 1):
+            row = 0
+            for j, row in enumerate(range(0, self.size_matrix[0]), 1):
+                if col == 0 and self.__obj_with_water[row][col] == 0:
+                    obj_with_water = self.__delete_water_last_row(self.__obj_with_water[row, :])
+                    continue
+
+                elif self.__obj_with_water[row][col] == 0:
+                    if row == 0:
+                        water = 0
+                        continue
+                    self.__obj_with_water[row][col] = water
                 else:
-                    water = "{0}{1}".format(i, j)
+                    water = int("{0}{1}".format(i, j))
+            if self.__obj_with_water[row, col] == water:
+                arr = self.__obj_with_water[:, col]
+                np.place(arr, arr == water, 0)
 
-        print(self.obj_with_water)
+    @property
+    def get_obj_with_water(self):
+        return self.__obj_with_water.tolist()
 
-    def delete_water_last_col(self, col):
-        for col, delete in enumerate(col, 0):
-            if delete != 1:
-                np.place(self.obj_with_water[col, :], self.obj_with_water[col, :] == delete, 0)
-
-    def delete_water_last_row(self):
-        for col, delete in enumerate(self.obj_with_water[self.size_matrix[0] - 1, :], 0):
-            if delete != 1:
-                for irow, row in enumerate(self.obj_with_water[:, col]):
-                    np.place(self.obj_with_water[irow, :], self.obj_with_water[irow, :] == row, 0)
-
-        self.delete_water_last_col(self.obj_with_water[:, self.size_matrix[1] - 1])
-        self.delete_water_last_col(self.obj_with_water[:, 0])
-        print(self.obj_with_water)
-        return np.flipud(self.obj_with_water)
+    @get_obj_with_water.setter
+    def get_obj_with_water(self, mass):
+        self.__change_matrix(mass)

@@ -8,12 +8,12 @@ ApplicationWindow {
     x: 400
     y: 200
     width: 1000
-    height: 550
+    height: 600
     title: "Test"
     Item {
         id: main
         width: 1000
-        height: 550
+        height: 600
 
         ControlPanel {
             id: controlPanel
@@ -36,7 +36,7 @@ ApplicationWindow {
             width: 600
             Item {
                 id: container
-                Component.onCompleted: store.gener()//,MyScript.createspinbox();
+                Component.onCompleted: store.gener()
             }
 
         }

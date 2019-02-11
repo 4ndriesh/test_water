@@ -1,3 +1,4 @@
+# обработка сигналов окна
 import os
 from sys import argv
 
@@ -12,8 +13,10 @@ from config import Config
 
 gen = Generator()
 setting = Config.inst()
+matrix = Matrix()
 
-class Pars_project(QObject):
+
+class List_save(QObject):
     name_prj_or_st = pyqtSignal()
 
     def __init__(self, name, *args, **kwargs):
@@ -25,8 +28,8 @@ class Pars_project(QObject):
         return self._name
 
 
-class Pars_station(QObject):
-    Pars_project_Changed = pyqtSignal()
+class Emit_save_to_qml(QObject):
+    Save_Changed = pyqtSignal()
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -40,38 +43,37 @@ class Pars_station(QObject):
         mass = setting.version[checked]
         if mass: self.emitproject(mass)
 
-    @pyqtProperty(QQmlListProperty, notify=Pars_project_Changed)
+    @pyqtProperty(QQmlListProperty, notify=Save_Changed)
     def channels(self):
-        return QQmlListProperty(Pars_project, self, self.prj_or_st)
+        return QQmlListProperty(List_save, self, self.prj_or_st)
 
     @channels.setter
     def channels(self, value):
         if value: self.prj_or_st.append(value)
-        self.Pars_project_Changed.emit()
+        self.Save_Changed.emit()
 
     @pyqtSlot(name="gener")
     def getmatrix(self):
-        mass = gen.create_matrix_rnd()
+        mass = gen.getGenerator
         self.run(mass)
 
     def run(self, mass):
-
-        self.matrix = Matrix(mass)
-        self.matrix.change_matrix()
-        self.matrix.delete_water_last_row()
-        project = self.matrix.delete_water_last_row().transpose()[::-1].tolist()
+        matrix.get_obj_with_water = mass
+        project = matrix.get_obj_with_water
         report.prj_or_st = []
         setting.version = project
         for rp in sorted(setting.version.keys(), reverse=True):
-            report.channels = Pars_project(rp)
+            report.channels = List_save(rp)
         self.emitproject(project)
+        return project
 
     def emitproject(self, project):
         self.sumResult.emit(project)
 
 
-report = Pars_station()
+report = Emit_save_to_qml()
 app = QGuiApplication(argv)
+
 
 def qml():
     path_to_qml = os.path.join(setting.BASE_DIR, 'qml', 'Main.qml')
