@@ -2,7 +2,6 @@
 import numpy as np
 from random import randint
 
-
 class Generator:
     def __init__(self):
         self.__get_matrix= np.array([], dtype=int)
